@@ -3,7 +3,6 @@ package com.zelo.internal;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 import com.zelo.internal.downloadmanager.core.DownloadConfiguration;
 import com.zelo.internal.downloadmanager.core.ZeloDownloadManager;
 import com.zelo.internal.downloadmanager.listeners.DownloadListener;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements DownloadListener {
 
@@ -32,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements DownloadListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        status= (TextView) findViewById(R.id.tvStatus);
+        /*status= (TextView) findViewById(R.id.tvStatus);
         progressBar= (ProgressBar) findViewById(R.id.pbProgress);
         imageView= (ImageView) findViewById(R.id.ivImg);
         status2= (TextView) findViewById(R.id.tvStatus2);
@@ -54,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements DownloadListener 
                 .setmFolder(new File(Environment.getExternalStorageDirectory(),"Download"))
                 .setmName("zelo2.jpg")
                 .setmURL(URL2)
-                .build();
+                .build();*/
 
     }
 

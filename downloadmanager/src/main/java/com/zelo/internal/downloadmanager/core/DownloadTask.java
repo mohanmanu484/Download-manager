@@ -2,6 +2,7 @@ package com.zelo.internal.downloadmanager.core;
 
 
 import android.os.Process;
+import android.text.TextUtils;
 
 import com.zelo.internal.downloadmanager.exeptions.CancelledException;
 import com.zelo.internal.downloadmanager.exeptions.DownloadException;
@@ -41,6 +42,10 @@ public class DownloadTask implements Runnable {
         this.downloadOptions=downloadOptions;
     }
 
+    public String getURL() {
+        return URL;
+    }
+
     private void executeConnection() throws DownloadException {
         HttpURLConnection httpConnection = null;
         final URL url;
@@ -76,7 +81,7 @@ public class DownloadTask implements Runnable {
 
         final long length;
         String contentLength = httpConnection.getHeaderField("Content-Length");
-        if (contentLength.isEmpty() || contentLength.equals("0") || contentLength.equals("-1")) {
+        if (TextUtils.isEmpty(contentLength) || contentLength.equals("0") || contentLength.equals("-1")) {
             length = httpConnection.getContentLength();
         } else {
             length = Long.parseLong(contentLength);

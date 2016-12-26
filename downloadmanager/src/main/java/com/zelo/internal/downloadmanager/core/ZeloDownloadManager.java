@@ -140,8 +140,10 @@ public class ZeloDownloadManager implements DownloadOptions, ConnectivityReceive
                                 status==DownloadStatus.STATUS_PROGRESS) {
                             downloader.pause();
                         }
+
                     }
                 }
+                mDownloaderMap.clear();
             }
         });
     }
@@ -149,7 +151,7 @@ public class ZeloDownloadManager implements DownloadOptions, ConnectivityReceive
         if(tag==null || downloadFileDb==null){
             return null;
         }
-        return downloadFileDb.getDownloadFile(tag);
+        return downloadFileDb.getDownloadFile(createKey(tag));
     }
 
     public void startFailedProceses(){

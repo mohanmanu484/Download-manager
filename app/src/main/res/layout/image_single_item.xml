@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivDownload"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_place_holder" />
+
+            <TextView
+                android:id="@+id/downloadStatus"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:enabled="true"
+                android:background="@drawable/bachground"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="Download"
+                android:textColor="@color/white"
+                android:visibility="visible" />
+
+            <ProgressBar
+
+                android:id="@+id/progressbar"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/downloadStatus"
+                android:visibility="visible"
+
+
+                />
+
+            <TextView
+                android:id="@+id/tvProgress"
+                android:textColor="#ffffff"
+                tools:text="1025623/12315"
+                android:gravity="center"
+                android:layout_below="@+id/progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/tvDownloadName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:textSize="16sp"
+            tools:text="Image1" />
+        <View
+            android:background="#dfdfdf"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
