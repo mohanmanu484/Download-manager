@@ -15,11 +15,17 @@ import java.util.List;
 
 public interface ImageDataSource {
 
+    void deleteFiles(DeleteFileCallback deleteFileCallback);
+
     interface LoadImagesCallback {
 
         void onImagesLoaded(List<DownloadInfo> images);
 
         void onImageNotAvailable();
+    }
+
+    interface DeleteFileCallback{
+        void onDelete();
     }
 
     public void getImages(@NonNull LoadImagesCallback callback);

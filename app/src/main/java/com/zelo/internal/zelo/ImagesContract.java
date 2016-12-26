@@ -20,6 +20,7 @@ public interface ImagesContract {
         boolean isActive();
         void showNetworkError(String message);
 
+        void showMessage(String message);
         void showImage(String fileLocation);
         void setStatus(DownloadInfo downloadInfo,int mPosition);
     }
@@ -29,6 +30,8 @@ public interface ImagesContract {
         void pauseAll();
         void cancelDownload(String tag);
         void viewImage(String location);
+
+        void deleteFiles();
     }
 
 

@@ -1,5 +1,6 @@
 package com.zelo.internal.zelo;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -24,12 +26,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
 /**
  * Created by mohan on 4/10/16.
  */
 
-public class ImagesFragment extends BaseFragment implements ImagesContract.View, OnItemClickListener<DownloadInfo> {
+public class ImagesFragment extends BaseFragment implements ImagesContract.View, OnItemClickListener<DownloadInfo>, EasyPermissions.PermissionCallbacks {
 
+    private static final int WRITE_STORAGE = 100;
     private ImagesContract.Presenter mPresenter;
     private ActionBar mActionBar;
     private ImagesAdapter imagesAdapter;
@@ -38,6 +44,7 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        writeStorage();
         imagesAdapter = new ImagesAdapter(getContext(), new ArrayList<DownloadInfo>(0));
         setHasOptionsMenu(true);
     }
@@ -107,6 +114,11 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
     }
 
     @Override
+    public void showMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showImage(String fileLocation) {
 
         Intent intent = new Intent(getContext(), ImageViewActivity.class);
@@ -114,6 +126,9 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
         startActivity(intent);
 
     }
+
+    private int  mPosition;
+    private DownloadInfo mDownloadInfo;
 
     @Override
     public void setPresenter(@NonNull ImagesContract.Presenter presenter) {
@@ -127,17 +142,19 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
 
     @Override
     public void onItemClick(View v, int position, DownloadInfo downloadInfo) {
+
         if (downloadInfo.getStatus() == DownloadStatus.STATUS_CONNECTED || downloadInfo.getStatus() == DownloadStatus.STATUS_PROGRESS) {
             pauseDownload(downloadInfo.getUrl());
         } else if (downloadInfo.getStatus() == DownloadStatus.STATUS_COMPLETED) {
             viewImage(downloadInfo);
         } else {
-            downloadImage(position, downloadInfo.getUrl(), downloadInfo);
+            downloadImage(position,downloadInfo.getUrl(),downloadInfo);
         }
     }
 
 
     private void downloadImage(final int position, String tag, final DownloadInfo downloadInfo) {
+
 
         ImagesAdapter.ImagesHoler holder = getViewHolder(position);
         holder.downloadStatus.setEnabled(false);
@@ -167,6 +184,27 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
         return first <= position && position <= last;
     }
 
+    @AfterPermissionGranted(WRITE_STORAGE)
+    private void writeStorage() {
+        String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(getActivity(), perms)) {
+
+            Log.d(TAG, "fetchContactsList: ");
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(this, getString(R.string.write_storage),
+                    WRITE_STORAGE, perms);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+       EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
     public void setStatus(DownloadInfo downloadInfo, int mPosition) {
         ImagesAdapter.ImagesHoler holder = getViewHolder(mPosition);
 
@@ -185,7 +223,9 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
                     holder.downloadStatus.setText(downloadInfo.getButtonText());
                     holder.progressBar.setVisibility(View.VISIBLE);
                     holder.progressBar.setMax(downloadInfo.getLength());
+
                 }
+                imagesAdapter.update(downloadInfo, mPosition);
 
                 break;
             case DownloadStatus.STATUS_PROGRESS:
@@ -194,6 +234,8 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
                   //  holder.downloadStatus.setEnabled(holder.downloadStatus.isEnabled()?f);
                     holder.downloadStatus.setEnabled(true);
                     holder.progressBar.setProgress(downloadInfo.getProgress());
+                    holder.progressBar.setVisibility(View.VISIBLE);
+                    holder.progressView.setVisibility(View.VISIBLE);
                     holder.progressView.setText(downloadInfo.getProgress()+"/"+downloadInfo.getLength());
 
                 }
@@ -204,6 +246,7 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
                 if (isCurrentListViewItemVisible(mPosition)) {
                     holder.downloadStatus.setEnabled(true);
                     holder.progressBar.setVisibility(View.VISIBLE);
+                    holder.progressView.setVisibility(View.VISIBLE);
                     holder.downloadStatus.setText(downloadInfo.getButtonText());
                 }
 
@@ -242,6 +285,27 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
 
 
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        switch (id){
+            case R.id.clearFiles:
+                mPresenter.deleteFiles();
+                break;
+        }
+        return true;
+    }
+
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+
     }
 
 

@@ -91,6 +91,19 @@ public class ImagesPresenter implements ImagesContract.Presenter {
         mImageFragmentView.showImage(fileLocation);
     }
 
+    @Override
+    public void deleteFiles() {
+        mImageFragmentView.showProgress();
+        mImagesRepository.deleteFiles(new ImageDataSource.DeleteFileCallback() {
+            @Override
+            public void onDelete() {
+                mImageFragmentView.hideProgress();
+                mImageFragmentView.showMessage("Delete successful");
+                loadImages();
+            }
+        });
+    }
+
 
     class DownloadCallback implements DownloadListener {
         private int mPosition;

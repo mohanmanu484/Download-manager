@@ -141,4 +141,19 @@ public class DownloadFileDb extends SQLiteOpenHelper {
     public void delete(String key) {
         db.delete(TABLE_DOWNLOAD,DOWNLOAD_KEY+"=?",new String[]{key});
     }
+
+    public void deleteFiles() {
+        Cursor cursor=db.query(TABLE_DOWNLOAD,null,null,null,null,null,null);
+        if(cursor.moveToFirst()){
+            for (int i = 0; i < cursor.getCount(); i++) {
+                File file = new File(cursor.getString(cursor.getColumnIndex(DOWNLOAD_FILE_DIR)), cursor.getString(cursor.getColumnIndex(DOWNLOAD_FILE_NAME)));
+                if (file.exists() && file.isFile()) {
+                    file.delete();
+                }
+                cursor.moveToNext();
+            }
+        }
+        db.delete(TABLE_DOWNLOAD,null,null);
+
+    }
 }

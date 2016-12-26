@@ -26,6 +26,12 @@ public class ImagesRepository implements ImageDataSource {
     }
 
     @Override
+    public void deleteFiles(DeleteFileCallback deleteFileCallback) {
+        zeloDownloadManager.deleteFiles();
+        deleteFileCallback.onDelete();
+    }
+
+    @Override
     public void getImages(@NonNull LoadImagesCallback callback) {
 
 

@@ -195,6 +195,10 @@ public class ZeloDownloadManager implements DownloadOptions, ConnectivityReceive
         downloadFileDb.delete(key);
     }
 
+    public void deleteFiles(){
+        downloadFileDb.deleteFiles();
+    }
+
     public void removeKey(String tag){
       //  String key = createKey(tag);
         if (mDownloaderMap.containsKey(tag)) {
