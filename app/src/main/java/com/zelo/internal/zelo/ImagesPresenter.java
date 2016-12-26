@@ -41,7 +41,7 @@ public class ImagesPresenter implements ImagesContract.Presenter {
 
     @Override
     public void start() {
-        mImageFragmentView.setTitle("Movies List");
+        mImageFragmentView.setTitle("Downoad manager");
         loadImages();
     }
 

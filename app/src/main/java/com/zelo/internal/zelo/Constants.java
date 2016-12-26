@@ -29,7 +29,7 @@ public class Constants {
         ArrayList<DownloadInfo> downloadInfos = new ArrayList<>();
 
         for (int i = 0; i < END_POINTS.length; i++) {
-            downloadInfos.add(new DownloadInfo(""+i, END_POINTS[i], "Image "+i));
+            downloadInfos.add(new DownloadInfo(""+i, END_POINTS[i], "Image "+(i+1)));
         }
 
         return downloadInfos;

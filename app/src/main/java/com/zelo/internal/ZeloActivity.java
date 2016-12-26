@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.zelo.internal.zelo.ImagesFragment;
 import com.zelo.internal.zelo.ImagesPresenter;
@@ -19,6 +20,9 @@ public class ZeloActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zelo);
+        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.download);
+        setSupportActionBar(toolbar);
 
         ImagesFragment moviesFragment =
                 (ImagesFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);

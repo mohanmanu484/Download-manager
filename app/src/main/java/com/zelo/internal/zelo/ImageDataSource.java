@@ -17,7 +17,7 @@ public interface ImageDataSource {
 
     interface LoadImagesCallback {
 
-        void onImagesLoaded(List<DownloadInfo> movies);
+        void onImagesLoaded(List<DownloadInfo> images);
 
         void onImageNotAvailable();
     }

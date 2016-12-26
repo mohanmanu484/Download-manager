@@ -141,6 +141,7 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
 
         ImagesAdapter.ImagesHoler holder = getViewHolder(position);
         holder.downloadStatus.setEnabled(false);
+        downloadInfo.setStatus(DownloadStatus.STATUS_STARTED);
         mPresenter.downloadImage(new DownloadConfiguration.Builder()
                 .setmFolder(new File(Environment.getExternalStorageDirectory(), "Download"))
                 .setmName(downloadInfo.getName() + ".jpg")
@@ -191,6 +192,7 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
 
                 if (isCurrentListViewItemVisible(mPosition)) {
                   //  holder.downloadStatus.setEnabled(holder.downloadStatus.isEnabled()?f);
+                    holder.downloadStatus.setEnabled(true);
                     holder.progressBar.setProgress(downloadInfo.getProgress());
                     holder.progressView.setText(downloadInfo.getProgress()+"/"+downloadInfo.getLength());
 
@@ -200,6 +202,7 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
                 break;
             case DownloadStatus.STATUS_PAUSED:
                 if (isCurrentListViewItemVisible(mPosition)) {
+                    holder.downloadStatus.setEnabled(true);
                     holder.progressBar.setVisibility(View.VISIBLE);
                     holder.downloadStatus.setText(downloadInfo.getButtonText());
                 }
@@ -208,6 +211,7 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
                 break;
             case DownloadStatus.STATUS_FAILED:
                 if (isCurrentListViewItemVisible(mPosition)) {
+                    holder.downloadStatus.setEnabled(true);
                     holder.progressBar.setVisibility(View.GONE);
                     holder.downloadStatus.setText(downloadInfo.getButtonText());
                 }
@@ -217,6 +221,7 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
                 break;
             case DownloadStatus.STATUS_COMPLETED:
                 if (isCurrentListViewItemVisible(mPosition)) {
+                    holder.downloadStatus.setEnabled(true);
                     holder.progressBar.setVisibility(View.GONE);
                     holder.progressView.setVisibility(View.GONE);
                     holder.downloadStatus.setText(downloadInfo.getButtonText());
@@ -227,6 +232,7 @@ public class ImagesFragment extends BaseFragment implements ImagesContract.View,
                 break;
             case DownloadStatus.STATUS_CANCELED:
                 if (isCurrentListViewItemVisible(mPosition)) {
+                    holder.downloadStatus.setEnabled(true);
                     holder.progressBar.setVisibility(View.GONE);
                     holder.downloadStatus.setText(downloadInfo.getButtonText());
                 }

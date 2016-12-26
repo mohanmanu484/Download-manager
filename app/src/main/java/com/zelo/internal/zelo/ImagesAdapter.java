@@ -49,13 +49,18 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImagesHole
         DownloadInfo downloadInfo=downloadInfos.get(position);
         holder.downloadStatus.setText(downloadInfo.getButtonText());
         holder.imageName.setText(downloadInfo.getName());
+        holder.downloadStatus.setEnabled(downloadInfo.getStatus()==DownloadStatus.STATUS_STARTED?false:true);
         if(downloadInfo.getStatus()== DownloadStatus.STATUS_PROGRESS){
             holder.progressBar.setVisibility(View.VISIBLE);
             holder.progressBar.setMax(downloadInfo.getLength());
             holder.progressBar.setProgress(downloadInfo.getProgress());
+            holder.progressView.setVisibility(View.VISIBLE);
+            holder.progressView.setText(downloadInfo.getProgress()+"/"+downloadInfo.getLength());
         }else {
+            holder.progressView.setVisibility(View.GONE);
             holder.progressBar.setVisibility(View.GONE);
         }
+
 
         holder.downloadStatus.setOnClickListener(new View.OnClickListener() {
             @Override
